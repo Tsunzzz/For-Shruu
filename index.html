@@ -106,7 +106,7 @@ img {
 <!-- HELLO -->
 <div class="screen active" id="s1">
     <img src="gifs/sticker/looking.gif">
-    <h1>Hello hello my Shruuu ❤️</h1>
+    <h1>Hello Hello My Shruuu ❤️</h1>
     <button onclick="startLoading()">Hello</button>
 </div>
 
@@ -141,7 +141,7 @@ img {
 <!-- CELEBRATION -->
 <div class="screen" id="celebrate">
     <img id="celebrateGif">
-    <h1>I love you Shruuu ❤️</h1>
+    <h1>I Love You Shruuu ❤️</h1>
 </div>
 
 <!-- SAVE -->
@@ -194,10 +194,10 @@ function startLoading(){
 
 /* STORY */
 const storyFlow=[
-  "i_arrive","i_arrive",
+  "i_arrive",
   "she_hello","together_walking",
   "cold_hands","looking","hand_holding",
-  "hands_in_pocket"
+  "hand_in_pocket"
 ];
 let storyIndex=0;
 
@@ -240,7 +240,6 @@ function no(){
 function yes(){
     playClick();
     show("celebrate");
-    confetti();
 
     const seq=["mobile_to_heart","cheek_pull","cheek_gulugulu","cheek_kiss"];
     let i=0, img=document.getElementById("celebrateGif");
