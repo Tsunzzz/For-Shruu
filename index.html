@@ -105,7 +105,7 @@ img {
 
 <!-- HELLO -->
 <div class="screen active" id="s1">
-    <img src="gifs/sticker/looking.gif">
+    <img src="looking.gif">
     <h1>Hello Hello My Shruuu ❤️</h1>
     <button onclick="startLoading()">Hello</button>
 </div>
@@ -114,7 +114,7 @@ img {
 <div class="screen" id="loading">
     <div class="progress">
         <div class="bar" id="bar"></div>
-        <img id="teddy" src="gifs/sticker/teddy_run.gif">
+        <img id="teddy" src="teddy_run.gif">
     </div>
     <p>Loading love… 💕</p>
 </div>
@@ -126,13 +126,13 @@ img {
 
 <!-- BOUQUET -->
 <div class="screen" id="bouquet">
-    <img src="gifs/sticker/bouquet.gif">
+    <img src="bouquet.gif">
     <button onclick="goAsk()">Continue</button>
 </div>
 
 <!-- ASK -->
 <div class="screen" id="ask">
-    <img id="centerGif" src="gifs/sticker/flowers_holding.gif">
+    <img id="centerGif" src="flowers_holding.gif">
     <h1>Will you be my Valentine? 💖</h1>
     <button id="yesBtn" onclick="yes()">Yes 😍</button>
     <button id="noBtn" onclick="no()">No 😶</button>
@@ -171,8 +171,8 @@ function show(id){
 }
 
 function safeGif(el,name){
-    el.onerror=()=>el.src="gifs/sticker/looking.gif";
-    el.src=`gifs/sticker/${name}.gif`;
+    el.onerror=()=>el.src="looking.gif";
+    el.src=`${name}.gif`;
 }
 
 /* LOADING */
