@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>For My Shruuu ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #ffe6f0;
+    font-family: system-ui, -apple-system;
+    overflow: hidden;
+}
+
+.screen {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    padding: 16px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.active { display: flex; }
+
+h1 { color: #d6336c; margin: 14px 0; }
+
+button {
+    padding: 16px 34px;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    background: #ff5c8a;
+    color: white;
+    margin: 12px;
+}
+
+img {
+    max-width: 85vw;
+    max-height: 55vh;
+}
+
+/* LOADER */
+.progress {
+    width: 80%;
+    height: 18px;
+    background: #ffd1e3;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.bar {
+    height: 100%;
+    width: 0%;
+    background: #ff5c8a;
+}
+
+#teddy {
+    position: absolute;
+    top: -42px;
+    left: 0;
+    width: 70px;
+}
+
+/* CONFETTI */
+.heart {
+    position: absolute;
+    font-size: 22px;
+    animation: fall 4s linear forwards;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); opacity: 0; }
+}
+
+/* ORIENTATION BLOCK */
+#rotateWarn {
+    position: fixed;
+    inset: 0;
+    background: #ffe6f0;
+    z-index: 999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div id="rotateWarn">
+    <h1>Please rotate back to portrait 💖</h1>
+</div>
+
+<audio id="bgm" src="music/bg.mp3" loop></audio>
+<audio id="click" src="music/click.mp3"></audio>
+
+<!-- HELLO -->
+<div class="screen active" id="s1">
+    <img src="gifs/sticker/looking.gif">
+    <h1>Hello hello my Shruuu ❤️</h1>
+    <button onclick="startLoading()">Hello</button>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="loading">
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+        <img id="teddy" src="gifs/sticker/teddy_run.gif">
+    </div>
+    <p>Loading love… 💕</p>
+</div>
+
+<!-- STORY -->
+<div class="screen" id="story">
+    <img id="storyGif">
+</div>
+
+<!-- BOUQUET -->
+<div class="screen" id="bouquet">
+    <img src="gifs/sticker/bouquet.gif">
+    <button onclick="goAsk()">Continue</button>
+</div>
+
+<!-- ASK -->
+<div class="screen" id="ask">
+    <img id="centerGif" src="gifs/sticker/flowers_holding.gif">
+    <h1>Will you be my Valentine? 💖</h1>
+    <button id="yesBtn" onclick="yes()">Yes 😍</button>
+    <button id="noBtn" onclick="no()">No 😶</button>
+</div>
+
+<!-- CELEBRATION -->
+<div class="screen" id="celebrate">
+    <img id="celebrateGif">
+    <h1>I love you Shruuu ❤️</h1>
+</div>
+
+<!-- SAVE -->
+<div class="screen" id="save">
+    <h1>Save this moment forever 💖</h1>
+    <p>Take a screenshot 🤍</p>
+</div>
+
+<script>
+/* ORIENTATION */
+function checkOrientation(){
+    document.getElementById("rotateWarn").style.display =
+        window.innerWidth > window.innerHeight ? "flex" : "none";
+}
+window.addEventListener("resize", checkOrientation);
+checkOrientation();
+
+/* HELPERS */
+const bgm = document.getElementById("bgm");
+const click = document.getElementById("click");
+function vibrate(ms){ navigator.vibrate && navigator.vibrate(ms); }
+function playClick(){ click.currentTime=0; click.play(); }
+
+function show(id){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function safeGif(el,name){
+    el.onerror=()=>el.src="gifs/sticker/looking.gif";
+    el.src=`gifs/sticker/${name}.gif`;
+}
+
+/* LOADING */
+function startLoading(){
+    playClick(); bgm.play();
+    show("loading");
+
+    let bar=document.getElementById("bar");
+    let teddy=document.getElementById("teddy");
+    let p=0;
+
+    let i=setInterval(()=>{
+        p++;
+        bar.style.width=p+"%";
+        teddy.style.left=`calc(${p}% - 30px)`;
+        if(p>=100){ clearInterval(i); startStory(); }
+    },50);
+}
+
+/* STORY */
+const storyFlow=[
+  "i_arrive","i_arrive",
+  "she_hello","together_walking",
+  "cold_hands","looking","hand_holding",
+  "hands_in_pocket"
+];
+let storyIndex=0;
+
+function startStory(){
+    show("story"); playStory();
+}
+
+function playStory(){
+    if(storyIndex>=storyFlow.length){
+        show("bouquet"); return;
+    }
+    safeGif(document.getElementById("storyGif"),storyFlow[storyIndex++]);
+    setTimeout(playStory,2600);
+}
+
+/* ASK */
+let noCount=0;
+
+function goAsk(){
+    show("ask");
+}
+
+function no(){
+    playClick();
+    vibrate(50 + noCount*40);
+    noCount++;
+
+    const gif=document.getElementById("centerGif");
+    const yes=document.getElementById("yesBtn");
+
+    if(noCount===1) safeGif(gif,"flowers_holding");
+    else if(noCount<=3) safeGif(gif,"nono");
+    else if(noCount<=6) safeGif(gif,"sad");
+    else safeGif(gif,"cry");
+
+    yes.style.transform=`scale(${1+noCount*0.1})`;
+}
+
+/* YES */
+function yes(){
+    playClick();
+    show("celebrate");
+    confetti();
+
+    const seq=["mobile_to_heart","cheek_pull","cheek_gulugulu","cheek_kiss"];
+    let i=0, img=document.getElementById("celebrateGif");
+
+    function play(){
+        if(i>=seq.length){ show("save"); return; }
+        safeGif(img,seq[i++]);
+        setTimeout(play,2000);
+    }
+    play();
+}
+
+/* CONFETTI */
+function confetti(){
+    for(let i=0;i<40;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerText="💖";
+        h.style.left=Math.random()*100+"vw";
+        h.style.animationDelay=Math.random()*2+"s";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),4000);
+    }
+}
+</script>
+
+</body>
+</html>
